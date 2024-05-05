@@ -1,22 +1,23 @@
-from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from users.serializers.profile import UserReadSerializer, UserUpdateSerializer
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from users.serializers.profile_serializer import ProfileReadSerializer, ProfileUpdateSerializer
 
 
-class UserViewSet(APIView):
+class ProfileView(APIView):
     permission_classes = (IsAuthenticated,)
-    
+
     @staticmethod
     def get(request):
         user = request.user
-        serializer = UserReadSerializer(user)
+        serializer = ProfileReadSerializer(user)
         return Response(serializer.data)
-        
+
     @staticmethod
     def put(request):
         user = request.user
-        serializer = UserUpdateSerializer(user, data=request.data, partial=True)
+        serializer = ProfileUpdateSerializer(user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)

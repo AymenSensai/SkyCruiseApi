@@ -1,8 +1,10 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from authentication.serializers.login import LoginSerializer
 from general.authentication import get_user_auth_data
+
 
 class LoginView(APIView):
 

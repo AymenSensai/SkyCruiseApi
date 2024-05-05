@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from authentication.serializers.register import RegisterSerializer
 from general.authentication import get_user_auth_data
 
+
 class RegisterView(APIView):
 
     @staticmethod

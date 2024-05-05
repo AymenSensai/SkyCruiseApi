@@ -5,6 +5,7 @@ from django.db import models
 
 from users.managers.user import UserManager
 
+
 class User(AbstractUser):
 
     username = models.CharField(max_length=40)

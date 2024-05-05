@@ -1,4 +1,5 @@
-from authentication.serializers.token import TokenSerializer
+from authentication.serializers.token_pair import TokenSerializer
+
 
 def get_user_auth_data(user, request):
     return {
