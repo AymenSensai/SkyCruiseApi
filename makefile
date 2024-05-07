@@ -1,14 +1,14 @@
 .PHONY: install
 install:
-	poetry install --no-root
+	poetry install
 
 .PHONY: migrations
 migrations:
-	 poetry run python manage.py makemigrations
+	 poetry run python -m skycruise.manage makemigrations
 
 .PHONY: migrate
 migrate:
-	 poetry run python manage.py migrate
+	 poetry run python -m skycruise.manage migrate
 
 .PHONY: install-pre-commit
 install-pre-commit:
@@ -19,11 +19,11 @@ update: install migrate install-pre-commit ;
 
 .PHONY: shell
 shell:
-	 poetry run python manage.py shell
+	 poetry run python -m skycruise.manage shell
 
 .PHONY: dbshell
 dbshell:
-	 poetry run python manage.py dbshell
+	 poetry run python -m skycruise.manage dbshell
 
 .PHONY: up-dependencies-only
 up-dependencies-only:
@@ -32,7 +32,7 @@ up-dependencies-only:
 
 .PHONY: run-server
 run-server:
-	poetry run python manage.py runserver
+	poetry run python -m skycruise.manage runserver
 
 .PHONY: lint
 lint:
@@ -40,7 +40,7 @@ lint:
 
 .PHONY: superuser
 superuser:
-	poetry run python manage.py createsuperuser
+	poetry run python -m skycruise.manage createsuperuser
 
 .PHONY: test
 test:
