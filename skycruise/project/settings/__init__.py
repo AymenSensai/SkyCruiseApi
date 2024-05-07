@@ -5,7 +5,6 @@ from split_settings.tools import include, optional
 
 from skycruise.general.utils.pytest import is_pytest_running
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 ENVVAR_SETTINGS_PREFIX = 'CORESESETTINGS_'
@@ -21,7 +20,7 @@ if not os.path.isabs(LOCAL_SETTINGS_PATH):
 # yapf: disable
 include(
     'base.py',
-    'logging.py',
+    'my_logging.py',
     'custom.py',
     optional(LOCAL_SETTINGS_PATH),
     'envvars.py',
