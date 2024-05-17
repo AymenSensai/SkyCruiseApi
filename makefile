@@ -32,7 +32,7 @@ up-dependencies-only:
 
 .PHONY: run-server
 run-server:
-	poetry run python -m skycruise.manage runserver
+	poetry run python -m skycruise.manage runserver 192.168.1.6:8000
 
 .PHONY: lint
 lint:

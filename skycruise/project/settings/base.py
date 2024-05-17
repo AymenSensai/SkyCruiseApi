@@ -3,7 +3,7 @@ from typing import List
 DEBUG = False
 SECRET_KEY = NotImplemented
 
-ALLOWED_HOSTS: List[str] = []
+ALLOWED_HOSTS: List[str] = ['192.168.1.6']
 
 # Application definition
 
@@ -97,3 +97,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # type: ignore # noqa: F821
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'bestaouiaymene@gmail.com'
+EMAIL_HOST_PASSWORD = 'wxqt iyxj qsov aqfc'
+PASSWORD_RESET_CODE_TIMEOUT_MINUTES = 15
