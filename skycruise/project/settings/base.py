@@ -57,8 +57,14 @@ WSGI_APPLICATION = 'skycruise.project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': r'C:\Users\Aymen\Desktop\SkyCruiseApi\db.sqlite3'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'skycruise',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'ATOMIC_REQUESTS': True,
+        'CONN_MAX_AGE': 600,
     }
 }
 
