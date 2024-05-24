@@ -8,10 +8,12 @@ env = environ.Env()
 environ.Env.read_env()
 
 DEBUG = False
-SECRET_KEY = 'django-insecure-#u$pk4&c&f11+v*h=_km$gz$&18*aw2)&f!87a-pc&(s20+vfs'
+SECRET_KEY = env('SECRET_KEY')
+
 
 ALLOWED_HOSTS: List[str] = ['*']
-
+CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS: List[str] = []
 # Application definition
 
 INSTALLED_APPS = [
@@ -23,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third party
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
@@ -40,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -78,22 +82,14 @@ SIMPLE_JWT = {
 
 WSGI_APPLICATION = 'skycruise.project.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'skycruise',
-#         'USER': 'postgres',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#         'ATOMIC_REQUESTS': True,
-#         'CONN_MAX_AGE': 600,
-#     }
-# }
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": r'C:\Users\Aymen\Desktop\SkyCruiseApi\db.sqlite3',
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
     }
 }
 
