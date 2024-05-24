@@ -10,4 +10,4 @@ $RUN_MANAGE_PY collectstatic --no-input
 echo 'Running migrations...'
 $RUN_MANAGE_PY migrate --no-input
 
-exec poetry run gunicorn skycruise.project.wsgi:application --bind 0.0.0.0:8000
+exec poetry run gunicorn skycruise.project.wsgi:application --bind 0.0.0.0:$PORT
