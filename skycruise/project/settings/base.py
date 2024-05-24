@@ -1,7 +1,5 @@
 from datetime import timedelta
 from typing import List
-
-import dj_database_url
 import environ
 
 env = environ.Env()
@@ -13,7 +11,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS: List[str] = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
-CSRF_TRUSTED_ORIGINS: List[str] = []
+CSRF_TRUSTED_ORIGINS: List[str] = ['skycruiseapi-production.up.railway.app']
 # Application definition
 
 INSTALLED_APPS = [
