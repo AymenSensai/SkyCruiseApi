@@ -26,7 +26,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
-
+    "whitenoise.runserver_nostatic",
+    
     # Apps
     'skycruise.authentication.apps.AuthenticationConfig',
     'skycruise.general.apps.GeneralConfig',
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -132,3 +134,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bestaouiaymene@gmail.com'
 EMAIL_HOST_PASSWORD = 'wxqt iyxj qsov aqfc'
 PASSWORD_RESET_CODE_TIMEOUT_MINUTES = 15
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
