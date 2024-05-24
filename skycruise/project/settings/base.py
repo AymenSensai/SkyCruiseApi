@@ -8,7 +8,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 DEBUG = False
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'django-insecure-#u$pk4&c&f11+v*h=_km$gz$&18*aw2)&f!87a-pc&(s20+vfs'
 
 ALLOWED_HOSTS: List[str] = ['*']
 
