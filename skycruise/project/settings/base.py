@@ -11,7 +11,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS: List[str] = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
-CSRF_TRUSTED_ORIGINS: List[str] = ['skycruiseapi-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS: List[str] = ['https://skycruiseapi-production.up.railway.app']
 # Application definition
 
 INSTALLED_APPS = [
