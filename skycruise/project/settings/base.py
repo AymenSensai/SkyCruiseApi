@@ -88,14 +88,12 @@ WSGI_APPLICATION = 'skycruise.project.wsgi.application'
 #         'CONN_MAX_AGE': 600,
 #     }
 # }
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": r'C:\Users\Aymen\Desktop\SkyCruiseApi\db.sqlite3',
-#     }
-# }
-
-DATABASES = {'default': dj_database_url.parse(env('DATABASE_URL'))}
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": r'C:\Users\Aymen\Desktop\SkyCruiseApi\db.sqlite3',
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
