@@ -10,7 +10,12 @@ class RegisterView(APIView):
 
     @staticmethod
     def post(request):
-        serializer = RegisterSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response(get_user_auth_data(user, request), status=status.HTTP_200_OK)
+        try:
+            serializer = RegisterSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.save()
+            return Response(get_user_auth_data(user, request), status=status.HTTP_200_OK)
+
+        except Exception as e:
+            response = {'message': str(e), 'code': status.HTTP_400_BAD_REQUEST}
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)

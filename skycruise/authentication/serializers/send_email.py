@@ -1,17 +1,27 @@
 import random
-from rest_framework import serializers
-from django.core.mail import send_mail
+
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.mail import send_mail
+from django.core.validators import validate_email
+from rest_framework import serializers
+
 from skycruise.project import settings
 
 User = get_user_model()
 
+
 class SendEmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
-    def validate_email(self, value):
+    @staticmethod
+    def validate_email(value):
+        try:
+            validate_email(value)
+        except DjangoValidationError:
+            raise Exception('Invalid email format.')
         if not User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("Email not found.")
+            raise Exception('Email does not exist.')
         return value
 
     def save(self):
@@ -19,7 +29,7 @@ class SendEmailSerializer(serializers.Serializer):
         user = User.objects.get(email=email)
         code = random.randint(1000, 9999)
 
-        subject = "Password Reset Code"
+        subject = 'Password Reset Code'
         message = f"""
         Hello {user.username},
 
@@ -36,7 +46,5 @@ class SendEmailSerializer(serializers.Serializer):
         The SkyCruise Team
         """
 
-        send_mail(
-            subject, message, 'from@example.com', [email], fail_silently=False
-        )
+        send_mail(subject, message, 'from@example.com', [email], fail_silently=False)
         return code

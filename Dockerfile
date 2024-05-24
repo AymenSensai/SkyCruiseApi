@@ -26,7 +26,7 @@ COPY ["README.md", "Makefile", "./"]
 COPY skycruise skycruise
 COPY local local
 
-# Expose the Django development server port (adjust if needed)
+# Expose the Django development server port
 EXPOSE 8000
 
 # Set up the entrypoint

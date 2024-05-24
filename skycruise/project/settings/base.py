@@ -1,9 +1,16 @@
+from datetime import timedelta
 from typing import List
 
-DEBUG = False
-SECRET_KEY = NotImplemented
+import dj_database_url
+import environ
 
-ALLOWED_HOSTS: List[str] = ['192.168.1.6']
+env = environ.Env()
+environ.Env.read_env()
+
+DEBUG = False
+SECRET_KEY = env('SECRET_KEY')
+
+ALLOWED_HOSTS: List[str] = ['*']
 
 # Application definition
 
@@ -18,11 +25,16 @@ INSTALLED_APPS = [
     # Third party
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_filters',
 
     # Apps
     'skycruise.authentication.apps.AuthenticationConfig',
     'skycruise.general.apps.GeneralConfig',
     'skycruise.users.apps.UsersConfig',
+    'skycruise.location.apps.LocationConfig',
+    'skycruise.flight.apps.FlightConfig',
+    'skycruise.airline.apps.AirlineConfig',
+    'skycruise.reservation.apps.ReservationConfig',
 ]
 
 MIDDLEWARE = [
@@ -53,20 +65,37 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+}
+
 WSGI_APPLICATION = 'skycruise.project.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'skycruise',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'ATOMIC_REQUESTS': True,
-        'CONN_MAX_AGE': 600,
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'skycruise',
+#         'USER': 'postgres',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#         'ATOMIC_REQUESTS': True,
+#         'CONN_MAX_AGE': 600,
+#     }
+# }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": r'C:\Users\Aymen\Desktop\SkyCruiseApi\db.sqlite3',
+#     }
+# }
+
+DATABASES = {'default': dj_database_url.parse(env('DATABASE_URL'))}
 
 AUTH_PASSWORD_VALIDATORS = [
     {

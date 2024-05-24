@@ -10,7 +10,14 @@ class LoginView(APIView):
 
     @staticmethod
     def post(request):
-        serializer = LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        return Response(get_user_auth_data(user, request), status=status.HTTP_200_OK)
+        try:
+            serializer = LoginSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
+            user_auth_data = get_user_auth_data(user, request)
+
+            return Response(user_auth_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            response = {'message': str(e), 'code': status.HTTP_400_BAD_REQUEST}
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)

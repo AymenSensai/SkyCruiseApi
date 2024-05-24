@@ -16,9 +16,9 @@ class LoginSerializer(serializers.Serializer):
         user = authenticate(email=attrs.get('email'), password=attrs.get('password'))
 
         if not user:
-            raise serializers.ValidationError('Incorrect username or password.')
+            raise Exception('Incorrect username or password.')
 
         if not user.is_active:
-            raise serializers.ValidationError('User is deactivated.')
+            raise Exception('User is deactivated.')
 
         return {'user': user}
