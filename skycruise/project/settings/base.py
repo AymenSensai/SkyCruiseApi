@@ -1,6 +1,10 @@
 from datetime import timedelta
 from typing import List
 import environ
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 
 env = environ.Env()
 environ.Env.read_env()
@@ -27,7 +31,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
-    "whitenoise.runserver_nostatic",
+    'whitenoise.runserver_nostatic',
+    'cloudinary',
+    
     
     # Apps
     'skycruise.authentication.apps.AuthenticationConfig',
@@ -130,3 +136,9 @@ EMAIL_HOST_PASSWORD = 'wxqt iyxj qsov aqfc'
 PASSWORD_RESET_CODE_TIMEOUT_MINUTES = 15
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+cloudinary.config( 
+  cloud_name = env('CLOUDINARY_CLOUD_NAME'), 
+  api_key = env('CLOUDINARY_API_KEY'), 
+  api_secret = env('CLOUDINARY_API_SECRET')
+)
