@@ -27,11 +27,11 @@ class FlightStepover(models.Model):
 class Seat(models.Model):
     flight = models.ForeignKey('Flight', on_delete=models.CASCADE, related_name='seats')
     seat_class = models.CharField(max_length=20)
-    number = models.PositiveIntegerField()
+    seat_number = models.CharField(max_length=10)
     is_available = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'{self.seat_class} class: {self.number} seats'
+        return f'{self.seat_class} class: {self.seat_number} seats'
 
 
 class Flight(models.Model):

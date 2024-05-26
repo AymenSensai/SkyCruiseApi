@@ -25,4 +25,4 @@ class ReservationSeat(models.Model):
     seat = models.ForeignKey(Seat, on_delete=models.CASCADE, related_name='reservation_seats')
 
     def __str__(self):
-        return f'Seat {self.seat.number} for Passenger {self.passenger.name} in Reservation {self.reservation.id}'
+        return f'Seat {self.seat.seat_number} for Passenger {self.passenger.name} in Reservation {self.reservation.id}'
