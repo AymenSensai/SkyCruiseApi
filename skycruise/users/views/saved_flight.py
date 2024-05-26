@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from skycruise.flight.models.flight import Flight
 from skycruise.flight.serializers.flight import FlightSerializer
 from skycruise.general.error import CustomExceptionHandlerMixin, get_error_request
-
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
 
 class SavedFlightListView(CustomExceptionHandlerMixin, generics.ListAPIView):
     serializer_class = FlightSerializer
@@ -44,3 +45,19 @@ class SavedFlightDeleteView(CustomExceptionHandlerMixin, generics.DestroyAPIView
         user = request.user
         user.saved_flights.remove(instance)
         return Response({'message': 'Flight removed from saved flights.'}, status=status.HTTP_204_NO_CONTENT)
+    
+
+class CheckSavedFlightAPIView(CustomExceptionHandlerMixin, APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, flight_id):
+        flight = get_object_or_404(Flight, pk=flight_id)
+        
+        user = request.user
+
+        is_saved = flight.saved_by_users.filter(pk=user.pk).exists()
+
+        if not is_saved:
+            return get_error_request('Flight is not saved by the user.', status.HTTP_400_BAD_REQUEST)
+
+        return Response({'is_saved': is_saved}, status=status.HTTP_200_OK)
