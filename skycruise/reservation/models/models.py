@@ -16,7 +16,7 @@ class Reservation(models.Model):
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name='reservations')
     date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='confirmed')
-    # number = models.CharField(max_length=12, unique=True, blank=True)
+    number = models.CharField(max_length=12, blank=True)
 
     def __str__(self):
         return f'Reservation {self.id} for Flight {self.flight.flight_number} by {self.user.username}'
