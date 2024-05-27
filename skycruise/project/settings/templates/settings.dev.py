@@ -1,6 +1,11 @@
 DEBUG = True
-
-SECRET_KEY = 'django-insecure-#u$pk4&c&f11+v*h=_km$gz$&18*aw2)&f!87a-pc&(s20+vfs'
+SECRET_KEY = 'HdaMchiSecretKey'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': r'C:\Users\Aymen\Desktop\SkyCruiseApi\db.sqlite3',
+    }
+}
 
 LOGGING['formatters']['colored'] = {  # type: ignore
     '()': 'colorlog.ColoredFormatter',

@@ -26,11 +26,12 @@ class ReservationSeatSerializer(serializers.ModelSerializer):
 class ReservationSerializer(serializers.ModelSerializer):
     flight = serializers.PrimaryKeyRelatedField(queryset=Flight.objects.all())
     reservation_seats = ReservationSeatSerializer(many=True)
+    number = serializers.CharField(read_only=True)
 
     class Meta:
         model = Reservation
-        fields = ['id', 'flight', 'date', 'status', 'reservation_seats']
-        read_only_fields = ['id', 'date', 'user']
+        fields = ['id', 'flight', 'date', 'status', 'reservation_seats', 'number']
+        read_only_fields = ['id', 'date', 'user', 'number']
 
     def create(self, validated_data):
         reservation_seats_data = validated_data.pop('reservation_seats', [])
@@ -43,9 +44,10 @@ class ReservationSerializer(serializers.ModelSerializer):
             seat_class = seat_data['seat_class']
 
             seat, created = Seat.objects.get_or_create(
-                seat_number=seat_number,
-                flight=flight,
-                defaults={'is_available': False, 'seat_class': seat_class}
+                seat_number=seat_number, flight=flight, defaults={
+                    'is_available': False,
+                    'seat_class': seat_class
+                }
             )
 
             if not created and not seat.is_available:
@@ -72,12 +74,13 @@ class ReservationSeatReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReservationSeat
         fields = ['id', 'passenger', 'seat']
-        
+
+
 class ReservationReadSerializer(serializers.ModelSerializer):
     flight = FlightSerializer(read_only=True)
     reservation_seats = ReservationSeatReadSerializer(many=True, read_only=True)
 
     class Meta:
         model = Reservation
-        fields = ['id', 'flight', 'date', 'status', 'reservation_seats']
-        read_only_fields = ['id', 'date', 'user']
+        fields = ['id', 'flight', 'date', 'status', 'reservation_seats', 'number']
+        read_only_fields = ['id', 'date', 'user', 'number']

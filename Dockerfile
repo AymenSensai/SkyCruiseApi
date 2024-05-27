@@ -24,7 +24,6 @@ RUN poetry install --no-root
 # Copy project files
 COPY ["README.md", "makefile", "./"]
 COPY skycruise skycruise
-# COPY local local
 
 # Expose the Django development server port
 EXPOSE 8000

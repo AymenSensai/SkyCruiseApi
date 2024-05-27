@@ -7,14 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.10.4-buster
 
-    services:
-      db:
-        image: postgres:14.2-alpine
-        env:
-          POSTGRES_DB: skycruise
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: admin
-
     steps:
       - uses: actions/checkout@v2
 

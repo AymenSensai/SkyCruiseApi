@@ -6,7 +6,7 @@ from skycruise.reservation.models.models import Reservation
 from skycruise.reservation.serializers.reservation import ReservationReadSerializer, ReservationSerializer
 
 
-class ReservationListCreateView(generics.ListCreateAPIView):
+class ReservationListCreateView(CustomExceptionHandlerMixin, generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class ReservationListCreateView(generics.ListCreateAPIView):
         return ReservationReadSerializer
 
 
-class ReservationRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+class ReservationRetrieveUpdateDestroyView(CustomExceptionHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

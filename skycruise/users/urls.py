@@ -2,7 +2,9 @@ from django.urls import path
 
 from skycruise.users.views.passenger import PassengerListCreateView, PassengerUpdateView
 from skycruise.users.views.profile_view import ProfileView
-from skycruise.users.views.saved_flight import CheckSavedFlightAPIView, SavedFlightAddView, SavedFlightDeleteView, SavedFlightListView
+from skycruise.users.views.saved_flight import (
+    CheckSavedFlightAPIView, SavedFlightAddView, SavedFlightDeleteView, SavedFlightListView
+)
 
 urlpatterns = [
     path('user/profile', ProfileView.as_view()),

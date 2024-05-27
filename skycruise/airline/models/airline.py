@@ -1,5 +1,6 @@
-from django.db import models
 from cloudinary.models import CloudinaryField
+from django.db import models
+
 from skycruise.location.models.models import Country
 
 

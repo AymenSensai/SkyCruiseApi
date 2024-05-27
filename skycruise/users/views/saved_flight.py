@@ -1,12 +1,13 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from skycruise.flight.models.flight import Flight
 from skycruise.flight.serializers.flight import FlightSerializer
 from skycruise.general.error import CustomExceptionHandlerMixin, get_error_request
-from django.shortcuts import get_object_or_404
-from rest_framework.views import APIView
+
 
 class SavedFlightListView(CustomExceptionHandlerMixin, generics.ListAPIView):
     serializer_class = FlightSerializer
@@ -34,25 +35,29 @@ class SavedFlightAddView(CustomExceptionHandlerMixin, generics.CreateAPIView):
 class SavedFlightDeleteView(CustomExceptionHandlerMixin, generics.DestroyAPIView):
     serializer_class = FlightSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Flight.objects.all()
 
     def get_queryset(self):
         user = self.request.user
         return user.saved_flights.all()
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
+        return obj
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         user = request.user
         user.saved_flights.remove(instance)
         return Response({'message': 'Flight removed from saved flights.'}, status=status.HTTP_204_NO_CONTENT)
-    
+
 
 class CheckSavedFlightAPIView(CustomExceptionHandlerMixin, APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, flight_id):
         flight = get_object_or_404(Flight, pk=flight_id)
-        
+
         user = request.user
 
         is_saved = flight.saved_by_users.filter(pk=user.pk).exists()

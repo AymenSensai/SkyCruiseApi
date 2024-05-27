@@ -1,17 +1,16 @@
 from datetime import timedelta
 from typing import List
-import environ
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
+import environ
 
 env = environ.Env()
 environ.Env.read_env()
 
 DEBUG = False
 SECRET_KEY = env('SECRET_KEY')
-
 
 ALLOWED_HOSTS: List[str] = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
@@ -33,8 +32,7 @@ INSTALLED_APPS = [
     'django_filters',
     'whitenoise.runserver_nostatic',
     'cloudinary',
-    
-    
+
     # Apps
     'skycruise.authentication.apps.AuthenticationConfig',
     'skycruise.general.apps.GeneralConfig',
@@ -48,7 +46,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -87,13 +85,13 @@ SIMPLE_JWT = {
 WSGI_APPLICATION = 'skycruise.project.wsgi.application'
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST"),
-        "PORT": env("DB_PORT"),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -135,10 +133,10 @@ EMAIL_HOST_USER = 'bestaouiaymene@gmail.com'
 EMAIL_HOST_PASSWORD = 'wxqt iyxj qsov aqfc'
 PASSWORD_RESET_CODE_TIMEOUT_MINUTES = 15
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-cloudinary.config( 
-  cloud_name = env('CLOUDINARY_CLOUD_NAME'), 
-  api_key = env('CLOUDINARY_API_KEY'), 
-  api_secret = env('CLOUDINARY_API_SECRET')
+cloudinary.config(
+    cloud_name=env('CLOUDINARY_CLOUD_NAME'),
+    api_key=env('CLOUDINARY_API_KEY'),
+    api_secret=env('CLOUDINARY_API_SECRET')
 )
