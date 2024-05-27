@@ -7,6 +7,15 @@ from skycruise.users.models.user import Passenger
 from skycruise.users.serializers.passenger import PassengerSerializer
 
 
+class ReservedSeatSerializer(serializers.ModelSerializer):
+    passenger = serializers.StringRelatedField()
+    seat_number = serializers.CharField(source='seat.seat_number')
+
+    class Meta:
+        model = ReservationSeat
+        fields = ['passenger', 'seat_number']
+
+
 class ReservationSeatSerializer(serializers.ModelSerializer):
     passenger = serializers.PrimaryKeyRelatedField(queryset=Passenger.objects.all())
     seat_number = serializers.CharField(write_only=True)

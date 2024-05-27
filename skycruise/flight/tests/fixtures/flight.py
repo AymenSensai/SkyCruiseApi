@@ -3,6 +3,7 @@ from model_bakery import baker
 
 from skycruise.flight.models.flight import Seat
 
+
 @pytest.fixture
 def sample_flight_1(sample_airline):
     departure_airport_1 = baker.make('location.Airport', code='DEP1')
@@ -23,6 +24,7 @@ def sample_flight_1(sample_airline):
     )
 
     return flight_1
+
 
 @pytest.fixture
 def sample_flight_2(sample_airline):

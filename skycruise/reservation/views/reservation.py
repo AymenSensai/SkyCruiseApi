@@ -1,12 +1,16 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from skycruise.general.error import CustomExceptionHandlerMixin
-from skycruise.reservation.models.models import Reservation
-from skycruise.reservation.serializers.reservation import ReservationReadSerializer, ReservationSerializer
+from skycruise.flight.models.flight import Flight
+from skycruise.reservation.models.models import Reservation, ReservationSeat
+from skycruise.reservation.serializers.reservation import (
+    ReservationReadSerializer, ReservationSerializer, ReservedSeatSerializer
+)
 
 
-class ReservationListCreateView(CustomExceptionHandlerMixin, generics.ListCreateAPIView):
+class ReservationListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -21,7 +25,7 @@ class ReservationListCreateView(CustomExceptionHandlerMixin, generics.ListCreate
         return ReservationReadSerializer
 
 
-class ReservationRetrieveUpdateDestroyView(CustomExceptionHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
+class ReservationRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -31,3 +35,13 @@ class ReservationRetrieveUpdateDestroyView(CustomExceptionHandlerMixin, generics
         if self.request.method in ['PUT', 'PATCH']:
             return ReservationSerializer
         return ReservationReadSerializer
+
+
+class ReservedSeatsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, flight_id):
+        flight = Flight.objects.get(id=flight_id)
+        reserved_seats = ReservationSeat.objects.filter(seat__flight=flight)
+        serializer = ReservedSeatSerializer(reserved_seats, many=True)
+        return Response(serializer.data)
