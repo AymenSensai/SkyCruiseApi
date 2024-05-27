@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from skycruise.flight.models.flight import Flight, Seat
 from skycruise.flight.serializers.flight import FlightSerializer, SeatSerializer
 from skycruise.reservation.models.models import Reservation, ReservationSeat
@@ -30,6 +29,23 @@ class ReservationSeatSerializer(serializers.ModelSerializer):
         representation['seat_number'] = instance.seat.seat_number
         representation['seat_class'] = instance.seat.seat_class
         return representation
+
+class ReservationSeatReadSerializer(serializers.ModelSerializer):
+    passenger = PassengerSerializer(read_only=True)
+    seat = SeatSerializer(read_only=True)
+
+    class Meta:
+        model = ReservationSeat
+        fields = ['id', 'passenger', 'seat']
+
+class ReservationReadSerializer(serializers.ModelSerializer):
+    flight = FlightSerializer(read_only=True)
+    reservation_seats = ReservationSeatReadSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Reservation
+        fields = ['id', 'flight', 'date', 'status', 'reservation_seats', 'number']
+        read_only_fields = ['id', 'date', 'user', 'number']
 
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -71,25 +87,7 @@ class ReservationSerializer(serializers.ModelSerializer):
         return reservation
 
     def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['flight'] = FlightSerializer(instance.flight).data
-        return representation
+        # Use the read serializer to ensure consistent output
+        return ReservationReadSerializer(instance).data
 
 
-class ReservationSeatReadSerializer(serializers.ModelSerializer):
-    passenger = PassengerSerializer(read_only=True)
-    seat = SeatSerializer(read_only=True)
-
-    class Meta:
-        model = ReservationSeat
-        fields = ['id', 'passenger', 'seat']
-
-
-class ReservationReadSerializer(serializers.ModelSerializer):
-    flight = FlightSerializer(read_only=True)
-    reservation_seats = ReservationSeatReadSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Reservation
-        fields = ['id', 'flight', 'date', 'status', 'reservation_seats', 'number']
-        read_only_fields = ['id', 'date', 'user', 'number']
